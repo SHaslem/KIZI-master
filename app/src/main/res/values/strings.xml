@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name">KIZI</string>
+    <string name="greeting">Welcome to KIZI</string>
+    <string name="beginButton">Let\'s Get Started!</string>
+    <string name="bad">curse words</string>
+    <string name="picture">Picture</string>
+    <string name="description_info">Info</string>
+    <string name="instructions">Center your tools in the screen and take a photo</string>
+    <string name="request_permission">This sample needs camera permission.</string>
+    <string name="camera_error">This device doesn\'t support Camera2 API.</string>
+    <string name="title_activity_size_input">Tell us about your drawer</string>
+    <string name="form_title">We Need Some Information</string>
+    <string name="drawer_name">Name of Layout</string>
+    <string name="drawer_width">Width of Drawer(inches)</string>
+    <string name="drawer_height">Height of Drawer(inches)</string>
+</resources>
