@@ -1,3 +1,14 @@
+/*This code was developed for Kizi LLC by Nevada Jumpstarter LLC
+*
+* The app is desgined to take a photo for KIZI's
+* image processing software.
+* The app takes in information from the user describing the size
+* of the drawer they are purchasing KIZI lining for
+* the app then ensure that the photo is taken from a distance to minimize
+* camera lense distorion while maximizing percentage of screen taken up by the drawer
+* contents.
+* The app also ensure the photo is taken at a level angle to avoid distortion*/
+
 package nvjumpstarter.kizi;
 
 import android.content.Intent;

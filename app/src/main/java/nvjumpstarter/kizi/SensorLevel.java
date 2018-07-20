@@ -1,3 +1,11 @@
+/* This code was developed for KIZI LLC by Nevada JumpStarter LLC
+*
+* This class implents a hardware listener on the devices accelerometer to determine how level the
+* device is.
+* It gives feedback to the user in the form of colloring the control panel red or green depending
+* on if the device is level enough*/
+
+
 package nvjumpstarter.kizi;
 
 import android.app.Activity;
@@ -16,9 +24,7 @@ import android.widget.Button;
 import static android.content.Context.SENSOR_SERVICE;
 import static java.lang.Math.abs;
 
-/**
- * Created by johnk on 8/28/2017.
- */
+
 
 public class SensorLevel implements SensorEventListener {
         private SensorManager mSensorManager;
@@ -35,6 +41,7 @@ public class SensorLevel implements SensorEventListener {
         private float[] mOrientation = new float[3];
 
         public Button button;
+        public View controlView;
 
     SensorLevel(Context context, View view) {
         this.mContext = context;
@@ -46,17 +53,12 @@ public class SensorLevel implements SensorEventListener {
         mMagnetometer = mSensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD);
         Log.i("Orientation", "Test bottom of Create");
         button = (Button) view.findViewById(R.id.picture);
+        controlView = view.findViewById(R.id.control);
 
     }
 
 
-//    public static SensorLevel newInstance() {
-//        return new SensorLevel();
-//    }
-
-
         public void onResume() {
-            //super.onResume();
             mLastAccelerometerSet = false;
             mLastMagnetometerSet = false;
             mSensorManager.registerListener(this, mAccelerometer, SensorManager.SENSOR_DELAY_NORMAL);
@@ -64,19 +66,17 @@ public class SensorLevel implements SensorEventListener {
         }
 
         public void onPause() {
-//            super.onPause();
             mSensorManager.unregisterListener(this);
         }
 
         @Override
         public void onAccuracyChanged(Sensor sensor, int accuracy) {
-            Log.i("Orientation", "Test in accuracey change");
             return;
         }
 
+        /* listens for changes in orientation and changes color of control panel accordingly */
         @Override
         public void onSensorChanged(SensorEvent event) {
-            Log.i("Orientation", "Test at top of onSensorChanged");
             if (event.sensor == mAccelerometer) {
                 System.arraycopy(event.values, 0, mLastAccelerometer, 0, event.values.length);
                 mLastAccelerometerSet = true;
@@ -89,7 +89,7 @@ public class SensorLevel implements SensorEventListener {
                 SensorManager.getOrientation(mR, mOrientation);
 
 
-                button.setBackgroundColor(setColor());
+                controlView.setBackgroundColor(setColor());
 //
                 Log.i("OrientationTestActivity", String.format("Orientation: %f, %f, %f",
                         mOrientation[0], mOrientation[1], mOrientation[2]));
@@ -102,22 +102,19 @@ public class SensorLevel implements SensorEventListener {
         //Returns color such that when device is tilted out of range the color is red and shifts to
         //green as device gets closer to level
         public int setColor(){
-            double tolerance = 0.0872566; //5 degrees
-            double midTolerance = 0.08; //bordeline leveled
+            double tolerance = 0.0523599; //3 degrees
 
             if( mOrientation[1] > tolerance || mOrientation[1] < -tolerance ||
                     mOrientation[2] > tolerance || mOrientation[2] < -tolerance )
             {
                 return Color.rgb(255, 0 , 0);
             }
-//            else if ( mOrientation[1] > midTolerance || mOrientation[1] < -midTolerance ||
-//                    mOrientation[2] > midTolerance || mOrientation[2] < -midTolerance )
-//                return Color.rgb(255,255,0);
             else
                 return Color.rgb(0, 255, 0);
 
         }
 
+        //Returns orientation of device by reference 0 = x, 1 = y, 2 = z
         public void getOrientation(float myOrientation[])
         {
             Log.i("Orientation", "Test in getOrientatino");

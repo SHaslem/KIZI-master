@@ -12,6 +12,13 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ *
+ *
+ * Changes made to open licensed software for use by KIZI LLC on behalf of Nevada Jumpstarter LLC:
+ * Addition of sensor orientation readings for purpose of sensing 'levelness' of device
+ * Addition of Sending email after photo is taken
+ *
+ *
  */
 
 package nvjumpstarter.kizi;
@@ -25,6 +32,7 @@ import android.app.DialogFragment;
 import android.app.Fragment;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.graphics.ImageFormat;
@@ -46,7 +54,9 @@ import android.hardware.camera2.TotalCaptureResult;
 import android.hardware.camera2.params.StreamConfigurationMap;
 import android.media.Image;
 import android.media.ImageReader;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
 import android.os.HandlerThread;
 import android.support.annotation.NonNull;
@@ -101,7 +111,9 @@ public class Camera2BasicFragment extends Fragment
 
     private float[] mOrientation = new float[3];
     double tolerance;
+    int iteration = 1;
 
+    boolean cameraLocked = false;
 
     static {
         ORIENTATIONS.append(Surface.ROTATION_0, 90);
@@ -405,6 +417,7 @@ public class Camera2BasicFragment extends Fragment
      * @param maxHeight         The maximum height that can be chosen
      * @param aspectRatio       The aspect ratio
      * @return The optimal {@code Size}, or an arbitrary one if none were big enough
+     *
      */
     private static Size chooseOptimalSize(Size[] choices, int textureViewWidth,
                                           int textureViewHeight, int maxWidth, int maxHeight, Size aspectRatio) {
@@ -439,8 +452,26 @@ public class Camera2BasicFragment extends Fragment
         }
     }
 
+    //Variables used to describe the size of the drawer the customer is photographing
+    public Integer Width;
+    public Integer Height;
+    public Integer Depth;
+    public String Name;
+    public String Notes;
+    public String LayoutName;
+
     public static Camera2BasicFragment newInstance() {
         return new Camera2BasicFragment();
+    }
+
+    //Sets the drawer descriptor values
+    public void setValues(Bundle bundle){
+
+        Height = bundle.getInt("height");Width  = bundle.getInt("width");
+        Depth =  bundle.getInt("depth");
+        Name  = bundle.getString("name");
+        Notes = bundle.getString("notes");
+        LayoutName  = bundle.getString("layoutName");
     }
 
 
@@ -455,13 +486,14 @@ public class Camera2BasicFragment extends Fragment
         view.findViewById(nvjumpstarter.kizi.R.id.picture).setOnClickListener(this);
         view.findViewById(nvjumpstarter.kizi.R.id.info).setOnClickListener(this);
         mTextureView = (nvjumpstarter.kizi.AutoFitTextureView) view.findViewById(nvjumpstarter.kizi.R.id.texture);
+
     }
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         mFile = new File(getActivity().getExternalFilesDir(null), "pic.jpg");
-//        SensorManager mSensorManager;
+        //initialize sensor manager for checking levelness of device
         mSensorLevel = new SensorLevel(getContext(), getView());
 
 
@@ -799,8 +831,10 @@ public class Camera2BasicFragment extends Fragment
     /**
      * Initiate a still image capture.
      */
-    private void takePicture() {
+    private boolean takePicture() {
         lockFocus();
+
+        return true;
     }
 
     /**
@@ -841,6 +875,8 @@ public class Camera2BasicFragment extends Fragment
     /**
      * Capture a still picture. This method should be called when we get a response in
      * {@link #mCaptureCallback} from both {@link #lockFocus()}.
+     *
+     * Once the photo is saved opens email client to send picture to KIZI representative
      */
     private void captureStillPicture() {
         try {
@@ -870,8 +906,26 @@ public class Camera2BasicFragment extends Fragment
                                                @NonNull CaptureRequest request,
                                                @NonNull TotalCaptureResult result) {
                     showToast("Saved: " + mFile);
-                    Log.d(TAG, mFile.toString());
+                    Log.d("Saved Photo", mFile.toString());
                     unlockFocus();
+
+                    //Open email client to send photo
+
+                    String address[] = {getString(R.string.email_receipient)};
+                    //email photo
+                    Intent i = new Intent(Intent.ACTION_SEND);
+                    i.setType("\"message/rfc822\"");
+                    i.putExtra(Intent.EXTRA_SUBJECT, Name + " " + LayoutName);
+                    i.putExtra(Intent.EXTRA_TEXT, "Name: " + Name + "\nWidth: " + Width.toString() + "\nHeight: " + Height.toString()
+                            + "\nDepth: " + Depth.toString() + "\nLayoutName: " + LayoutName + "\nNotes: " + Notes);
+                    i.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(mFile));
+                    i.putExtra(Intent.EXTRA_EMAIL, address);
+
+                    startActivityForResult(Intent.createChooser(i, "Select Your email application"), 1);
+
+
+
+
                 }
             };
 
@@ -919,41 +973,51 @@ public class Camera2BasicFragment extends Fragment
 
     @Override
     public void onClick(View view) {
-        switch (view.getId()) {
-            case R.id.picture: {
-                tolerance = 0.0872566; //5 degrees
-                mSensorLevel.getOrientation(mOrientation);
-                Log.i("orientation1", Float.toString(mOrientation[0]));
-                Log.i("orientation1", Float.toString(mOrientation[1]));
-                Log.i("orientation1", Float.toString(mOrientation[2]));
-                 if( mOrientation[1] < tolerance && mOrientation[1] > -tolerance && mOrientation[2] < tolerance && mOrientation[2] > -tolerance )
-                {
-                    takePicture();
-                    break;
+
+
+            switch (view.getId()) {
+
+                case R.id.picture: {
+                    //Set tolerance for levelness of device- do not exceed 5 degrees
+
+                    tolerance = 0.0523599; //3degrees
+                    //Get orientation from sensor manager
+                    mSensorLevel.getOrientation(mOrientation);
+                    //uncomment for debugging
+//                    Log.i("orientation1", Float.toString(mOrientation[0]));
+//                    Log.i("orientation1", Float.toString(mOrientation[1]));
+//                    Log.i("orientation1", Float.toString(mOrientation[2]));
+                    //if device is level take photo otherwise send error message
+                    if (mOrientation[1] < tolerance && mOrientation[1] > -tolerance && mOrientation[2] < tolerance && mOrientation[2] > -tolerance) {
+                        if (!cameraLocked) {
+                            cameraLocked = true;
+                            takePicture();
+                        }
+                        break;
+
+                    }
+                     else {
+                        Activity activity = getActivity();
+                        if (null != activity) {
+                            Toast.makeText(activity, "Camera Not Level Enough", Toast.LENGTH_SHORT).show();
+                            break;
+                        }
+                    }
+
                 }
-                else
-                {
+                case nvjumpstarter.kizi.R.id.info: {
                     Activity activity = getActivity();
                     if (null != activity) {
                         new AlertDialog.Builder(activity)
-                                .setMessage("Level camera better")
+                                .setMessage(R.string.instructions)
                                 .setPositiveButton(android.R.string.ok, null)
                                 .show();
                     }
                     break;
                 }
             }
-            case nvjumpstarter.kizi.R.id.info: {
-                Activity activity = getActivity();
-                if (null != activity) {
-                    new AlertDialog.Builder(activity)
-                            .setMessage(R.string.instructions)
-                            .setPositiveButton(android.R.string.ok, null)
-                            .show();
-                }
-                break;
-            }
-        }
+
+
     }
 
     private void setAutoFlash(CaptureRequest.Builder requestBuilder) {
@@ -975,11 +1039,11 @@ public class Camera2BasicFragment extends Fragment
         /**
          * The file we save the image into.
          */
-        private final File mFile;
+        private final File myFile;
 
         public ImageSaver(Image image, File file) {
             mImage = image;
-            mFile = file;
+            myFile = file;
         }
 
         @Override
@@ -989,7 +1053,7 @@ public class Camera2BasicFragment extends Fragment
             buffer.get(bytes);
             FileOutputStream output = null;
             try {
-                output = new FileOutputStream(mFile);
+                output = new FileOutputStream(myFile);
                 output.write(bytes);
             } catch (IOException e) {
                 e.printStackTrace();
@@ -1082,6 +1146,14 @@ public class Camera2BasicFragment extends Fragment
                             })
                     .create();
         }
+    }
+
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        cameraLocked = false;
+        Log.i("myLock:", "Unlocked");
     }
 
 }

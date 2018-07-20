@@ -1,16 +1,25 @@
 <resources>
+    <!--Change this to match desired email destination-->
+    <string name="email_receipient">sandrahaslem@gmail.com</string>
+    <!---->
     <string name="app_name">KIZI</string>
     <string name="greeting">Welcome to KIZI</string>
     <string name="beginButton">Let\'s Get Started!</string>
     <string name="bad">curse words</string>
     <string name="picture">Picture</string>
     <string name="description_info">Info</string>
-    <string name="instructions">Center your tools in the screen and take a photo</string>
+    <string name="instructions">Arrange your tools as they will be in your drawer and place a CD on the left hand side near the top\n
+                                Hold the phone such that the red circle is the same size as the CD
+                                and all the tools are within the green box\n
+                                If you can\'t get it perfect don\'t worry just try to get as close as you can\n
+                                The photo will only take if the phone is held perfectly level- the bar will turn green when you are level enough</string>
     <string name="request_permission">This sample needs camera permission.</string>
     <string name="camera_error">This device doesn\'t support Camera2 API.</string>
     <string name="title_activity_size_input">Tell us about your drawer</string>
     <string name="form_title">We Need Some Information</string>
     <string name="drawer_name">Name of Layout</string>
     <string name="drawer_width">Width of Drawer(inches)</string>
-    <string name="drawer_height">Height of Drawer(inches)</string>
+    <string name="drawer_height">Length of Drawer(inches)</string>
+    <string name="liner_thickness">Preferred Thickness of Liner (maximum 2 inches)</string>
+
 </resources>
