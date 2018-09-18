@@ -4,6 +4,7 @@ package nvjumpstarter.kizi;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.StrictMode;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -33,6 +34,10 @@ public class size_input extends AppCompatActivity {
 
     //Gather inputs from form, do basic sanity checks and call camera activity
     public void continueToPhoto(View v){
+
+        StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
+        StrictMode.setVmPolicy(builder.build());
+
         float width = 0;
         float height = 0;
         String title = "No Title Given";

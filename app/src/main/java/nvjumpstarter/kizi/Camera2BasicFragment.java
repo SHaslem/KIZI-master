@@ -59,9 +59,11 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.HandlerThread;
+import android.os.StrictMode;
 import android.support.annotation.NonNull;
 import android.support.v13.app.FragmentCompat;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.content.FileProvider;
 import android.util.Log;
 import android.util.Size;
 import android.util.SparseIntArray;
@@ -223,6 +225,9 @@ public class Camera2BasicFragment extends Fragment
 
         @Override
         public void onOpened(@NonNull CameraDevice cameraDevice) {
+
+            StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
+            StrictMode.setVmPolicy(builder.build());
             // This method is called when the camera is opened.  We start camera preview here.
             mCameraOpenCloseLock.release();
             mCameraDevice = cameraDevice;
@@ -453,9 +458,9 @@ public class Camera2BasicFragment extends Fragment
     }
 
     //Variables used to describe the size of the drawer the customer is photographing
-    public Integer Width;
-    public Integer Height;
-    public Integer Depth;
+    public Float Width;
+    public Float Height;
+    public Float Depth;
     public String Name;
     public String Notes;
     public String LayoutName;
@@ -467,8 +472,10 @@ public class Camera2BasicFragment extends Fragment
     //Sets the drawer descriptor values
     public void setValues(Bundle bundle){
 
-        Height = bundle.getInt("height");Width  = bundle.getInt("width");
-        Depth =  bundle.getInt("depth");
+
+        Width = bundle.getFloat("width");
+        Height = bundle.getFloat("height");
+        Depth = bundle.getFloat("depth");
         Name  = bundle.getString("name");
         Notes = bundle.getString("notes");
         LayoutName  = bundle.getString("layoutName");
@@ -478,6 +485,7 @@ public class Camera2BasicFragment extends Fragment
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
         return inflater.inflate(nvjumpstarter.kizi.R.layout.fragment_camera2_basic, container, false);
     }
 
@@ -909,21 +917,41 @@ public class Camera2BasicFragment extends Fragment
                     Log.d("Saved Photo", mFile.toString());
                     unlockFocus();
 
-                    //Open email client to send photo
+////                    //Open email client to send photo
+////
+////                    String address[] = {getString(R.string.email_recipient)};
+////                    //email photo
+//                      Intent i = new Intent(Intent.ACTION_SEND);
+//                    i.setType("\"message/rfc822\"");
+////                    i.putExtra(Intent.EXTRA_SUBJECT, Name + " " + LayoutName);
+//                    i.putExtra(Intent.EXTRA_TEXT, "Name: " + Name + "\nWidth: " + Width.toString() + "\nHeight: " + Height.toString()
+//                            + "\nDepth: " + Depth.toString() + "\nLayoutName: " + LayoutName + "\nNotes: " + Notes);
+//////                    Code below is causing app to crash
+//                     i.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(mFile));
+//
+//                    //E-mail photo to Sandra Haslem below
+//                    i.putExtra(Intent.EXTRA_EMAIL, new String[]{"sandrahaslem@gmail.com"});
+////
+//                    try {
+//                        startActivity(Intent.createChooser(i, "Select Your email application"));
+//                    }
+//                    catch (android.content.ActivityNotFoundException e){
+
+//                    }
 
                     String address[] = {getString(R.string.email_receipient)};
                     //email photo
                     Intent i = new Intent(Intent.ACTION_SEND);
+                    i.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
                     i.setType("\"message/rfc822\"");
                     i.putExtra(Intent.EXTRA_SUBJECT, Name + " " + LayoutName);
                     i.putExtra(Intent.EXTRA_TEXT, "Name: " + Name + "\nWidth: " + Width.toString() + "\nHeight: " + Height.toString()
                             + "\nDepth: " + Depth.toString() + "\nLayoutName: " + LayoutName + "\nNotes: " + Notes);
+
                     i.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(mFile));
                     i.putExtra(Intent.EXTRA_EMAIL, address);
 
-                    startActivityForResult(Intent.createChooser(i, "Select Your email application"), 1);
-
-
+                    startActivity(Intent.createChooser(i, "Select Your email application"));
 
 
                 }
