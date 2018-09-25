@@ -2,8 +2,10 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/KIZI.iml" filepath="$PROJECT_DIR$/KIZI.iml" />
+      <module fileurl="file://C:\Users\ds104\Documents\SandyStuff\KIZI-master\KIZI.iml" filepath="C:\Users\ds104\Documents\SandyStuff\KIZI-master\KIZI.iml" />
+      <module fileurl="file://$PROJECT_DIR$/KIZI-master.iml" filepath="$PROJECT_DIR$/KIZI-master.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://C:\Users\ds104\Documents\SandyStuff\KIZI-master\app\app.iml" filepath="C:\Users\ds104\Documents\SandyStuff\KIZI-master\app\app.iml" />
     </modules>
   </component>
 </project>
