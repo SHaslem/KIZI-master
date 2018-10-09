@@ -2,8 +2,8 @@
     <!--Change this to match desired email destination-->
     <string name="email_receipient">sandrahaslem@gmail.com</string>
     <!---->
-    <string name="app_name">KIZI</string>
-    <string name="greeting">Welcome to KIZI</string>
+    <string name="app_name">Setapart</string>
+    <string name="greeting">Welcome to Setapart</string>
     <string name="beginButton">Let\'s Get Started!</string>
     <string name="bad">curse words</string>
     <string name="picture">Picture</string>
