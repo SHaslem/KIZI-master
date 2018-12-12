@@ -18,8 +18,8 @@
     <string name="title_activity_size_input">Tell us about your drawer</string>
     <string name="form_title">We Need Some Information</string>
     <string name="drawer_name">Name of Layout</string>
-    <string name="drawer_width">Width of Drawer(inches)</string>
-    <string name="drawer_height">Length of Drawer(inches)</string>
-    <string name="liner_thickness">Preferred Thickness of Liner (maximum 2 inches)</string>
+    <string name="drawer_width">Width</string>
+    <string name="drawer_height">Length</string>
+    <string name="liner_thickness">Thickness</string>
 
 </resources>

@@ -1,88 +1,173 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="nvjumpstarter.kizi.size_input"
-    tools:layout_editor_absoluteY="25dp"
-    tools:layout_editor_absoluteX="0dp">
+    android:layout_margin="10dp"
 
-
-    <EditText
+    tools:context="nvjumpstarter.kizi.size_input">
+<RelativeLayout
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    >
+    <android.support.design.widget.TextInputLayout
         android:id="@+id/nameText"
-        android:layout_width="0dp"
+        android:layout_below="@id/textView3"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
-        android:hint="First Name Last Name"
+        android:hint="Your Name"
+        android:layout_marginTop="10dp"
         android:inputType="textPersonName"
-        android:selectAllOnFocus="false"
-        tools:layout_constraintTop_creator="1"
-        tools:layout_constraintRight_creator="1"
-        app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView3"
-        tools:layout_constraintLeft_creator="1"
-        app:layout_constraintLeft_toLeftOf="parent" />
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
 
-    <EditText
+        >
+        <android.support.design.widget.TextInputEditText
+            android:id="@+id/nameField"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+    </android.support.design.widget.TextInputLayout>
+
+    <!--<android.support.design.widget.TextInputLayout-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:padding="10dp"-->
+        <!--style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"-->
+        <!--app:boxBackgroundColor="@color/textbox_background"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:hint="First name">-->
+
+        <!--<android.support.design.widget.TextInputEditText-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:text="hi"-->
+            <!--android:layout_height="wrap_content"/>-->
+    <!--</android.support.design.widget.TextInputLayout>-->
+
+
+    <android.support.design.widget.TextInputLayout
         android:id="@+id/layoutNameText"
-        android:layout_width="0dp"
+        android:layout_marginTop="10dp"
+
+        android:layout_below="@id/nameText"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
         android:hint="@string/drawer_name"
         android:inputType="textPersonName"
         android:selectAllOnFocus="false"
-        tools:layout_constraintTop_creator="1"
-        tools:layout_constraintRight_creator="1"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+
+
         app:layout_constraintRight_toRightOf="@+id/nameText"
         app:layout_constraintTop_toBottomOf="@+id/nameText"
-        tools:layout_constraintLeft_creator="1"
-        app:layout_constraintLeft_toLeftOf="@+id/nameText" />
+
+        >
+        <android.support.design.widget.TextInputEditText
+            android:id="@+id/layoutField"
+            android:layout_width="match_parent"
+
+            android:layout_height="wrap_content"/>
+    </android.support.design.widget.TextInputLayout>
+
+
+
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/height"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="10dp"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="105dp"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="@string/drawer_height"
+        android:layout_below="@id/layoutNameText"
+        app:helperText="in."
+        >
+        <android.support.design.widget.TextInputEditText
+            android:id="@+id/heightField"
+            android:layout_width="match_parent"
+            android:inputType="number"
+            android:layout_height="wrap_content"/>
+    </android.support.design.widget.TextInputLayout>
+
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/width"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="10dp"
+
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+
+        android:layout_width="105dp"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="@string/drawer_width"
+        android:layout_below="@id/layoutNameText"
+        android:layout_toRightOf="@id/height"
+        app:helperText="in."
+        >
+        <android.support.design.widget.TextInputEditText
+            android:id="@+id/widthField"
+            android:layout_width="match_parent"
+            android:inputType="number"
+            android:layout_height="wrap_content"/>
+    </android.support.design.widget.TextInputLayout>
+
+
+
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/depthText"
+        android:layout_marginTop="10dp"
+
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="105dp"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/width"
+        android:layout_below="@id/layoutNameText"
+
+        android:ems="10"
+        android:hint="@string/liner_thickness"
+        app:layout_constraintBottom_toTopOf="@+id/notesText"
+        app:layout_constraintTop_toBottomOf="@id/width"
+        app:helperText="max 2 in."
+        >
+        <android.support.design.widget.TextInputEditText
+            android:id="@+id/depthField"
+            android:layout_width="match_parent"
+            android:inputType="number"
+            android:layout_height="wrap_content"/>
+    </android.support.design.widget.TextInputLayout>
+
+    <android.support.design.widget.TextInputLayout
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_marginTop="10dp"
+
+        android:id="@+id/notesText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/height"
+        android:ems="10"
+        android:hint="Additional Notes"
+        app:helperText="optional"
+        android:inputType="text"
+        >
+        <android.support.design.widget.TextInputEditText
+            android:id="@+id/notesField"
+            android:layout_width="match_parent"
+
+            android:layout_height="wrap_content"/>
+    </android.support.design.widget.TextInputLayout>
 
     <TextView
         android:id="@+id/textView3"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/form_title"
         android:textAlignment="center"
         android:textSize="45sp"
         android:textStyle="bold"
-        tools:layout_constraintTop_creator="1"
-        tools:layout_constraintRight_creator="1"
-        app:layout_constraintRight_toRightOf="parent"
-        android:layout_marginTop="6dp"
-        tools:layout_constraintLeft_creator="1"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <EditText
-        android:id="@+id/height"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:hint="@string/drawer_height"
-        android:inputType="numberDecimal"
-        app:layout_constraintLeft_toLeftOf="@+id/layoutNameText"
-        app:layout_constraintRight_toRightOf="@+id/layoutNameText"
-        app:layout_constraintTop_toBottomOf="@+id/layoutNameText"
-        tools:layout_constraintLeft_creator="1"
-        tools:layout_constraintRight_creator="1"
-        tools:layout_constraintTop_creator="1" />
-
-    <EditText
-        android:id="@+id/width"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:hint="@string/drawer_width"
-        android:inputType="numberDecimal"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintLeft_toLeftOf="@+id/height"
-        app:layout_constraintRight_toRightOf="@+id/height"
-        app:layout_constraintTop_toBottomOf="@+id/height"
-        tools:layout_constraintLeft_creator="1"
-        tools:layout_constraintRight_creator="1"
-        tools:layout_constraintTop_creator="1" />
+        android:layout_marginTop="6dp" />
 
     <Button
         android:id="@+id/button2"
@@ -90,61 +175,16 @@
         android:layout_height="wrap_content"
         android:onClick="continueToPhoto"
         android:text="Continue"
-        tools:layout_constraintTop_creator="1"
-        tools:layout_constraintRight_creator="1"
-        app:layout_constraintRight_toRightOf="parent"
+
         android:layout_marginTop="14dp"
-        app:layout_constraintTop_toBottomOf="@+id/notesText"
-        tools:layout_constraintLeft_creator="1"
-        app:layout_constraintLeft_toLeftOf="parent" />
+        android:layout_centerInParent="true"
+        android:layout_below="@id/notesText" />
 
     <ImageView
         android:id="@+id/imageView2"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        app:srcCompat="@drawable/rectangle"
-        tools:layout_constraintTop_creator="1"
-        tools:layout_constraintRight_creator="1"
-        tools:layout_constraintBottom_creator="1"
-        android:layout_marginStart="11dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        android:layout_marginEnd="11dp"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button2"
-        tools:layout_constraintLeft_creator="1"
-        android:layout_marginBottom="16dp"
-        app:layout_constraintLeft_toLeftOf="parent" />
-
-    <EditText
-        android:id="@+id/depthText"
-        android:layout_width="353dp"
-        android:layout_height="42dp"
-        android:layout_marginLeft="8dp"
-        android:ems="10"
-        android:hint="@string/liner_thickness"
-        android:inputType="numberDecimal"
-        app:layout_constraintBottom_toTopOf="@+id/notesText"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        tools:layout_constraintBottom_creator="1"
-        tools:layout_constraintLeft_creator="1"
-        tools:layout_constraintRight_creator="1" />
-
-    <EditText
-        android:id="@+id/notesText"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:ems="10"
-        android:hint="Additional Notes(optional)"
-        android:inputType="text"
-        tools:layout_constraintTop_creator="1"
-        tools:layout_constraintRight_creator="1"
-        app:layout_constraintRight_toRightOf="@+id/depthText"
-        android:layout_marginTop="42dp"
-        app:layout_constraintTop_toBottomOf="@+id/width"
-        tools:layout_constraintLeft_creator="1"
-        app:layout_constraintLeft_toLeftOf="@+id/depthText" />
-
-
+        app:srcCompat="@drawable/rectangle"
+        android:layout_below="@id/button2"/>
+</RelativeLayout>
 </android.support.constraint.ConstraintLayout>

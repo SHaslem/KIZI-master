@@ -3,8 +3,10 @@
 package nvjumpstarter.kizi;
 
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.os.StrictMode;
+import android.support.design.widget.TextInputEditText;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -16,6 +18,7 @@ public class size_input extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         setContentView(R.layout.activity_size_input);
         //Bundle bundle = getIntent().getExtras();
         Intent intent = getIntent();
@@ -46,31 +49,37 @@ public class size_input extends AppCompatActivity {
         String layoutName = "None Provided";
         String notes = "No Notes";
 
-        TextView widthField = (TextView) findViewById(R.id.width);
+        TextInputEditText widthField = findViewById(R.id.widthField);
+        //widthField.setText("8");
         if (!widthField.getText().toString().isEmpty())
              width = Float.parseFloat(widthField.getText().toString());
 
-        TextView heightField = (TextView) findViewById(R.id.height);
+        TextInputEditText heightField = findViewById(R.id.heightField);
+        //heightField.setText("24");
+
         if (!heightField.getText().toString().isEmpty())
             height = Float.parseFloat(heightField.getText().toString());
 
-        TextView titleField = (TextView) findViewById(R.id.layoutNameText);
+        TextInputEditText titleField = findViewById(R.id.layoutField);
         if(!titleField.getText().toString().trim().isEmpty())
             title = titleField.getText().toString();
 
-        TextView depthField = (TextView) findViewById(R.id.depthText);
+        TextInputEditText depthField =  findViewById(R.id.depthField);
+        //depthField.setText("2");
+
         if(!depthField.getText().toString().trim().isEmpty())
             depth = Float.parseFloat(depthField.getText().toString());
 
-        TextView nameField = (TextView) findViewById(R.id.nameText);
+        TextInputEditText nameField =  findViewById(R.id.nameField);
+        //nameField.setText("Megan");
         if(!nameField.getText().toString().trim().isEmpty())
             name = nameField.getText().toString();
 
-        TextView notesField = (TextView) findViewById(R.id.notesText);
+        TextInputEditText notesField = findViewById(R.id.notesField);
         if(!notesField.getText().toString().trim().isEmpty())
             notes = notesField.getText().toString();
 
-        TextView layoutNameField = (TextView) findViewById(R.id.layoutNameText);
+        TextInputEditText layoutNameField =  findViewById(R.id.layoutField);
         if(!layoutNameField.getText().toString().trim().isEmpty())
             layoutName = layoutNameField.getText().toString();
 

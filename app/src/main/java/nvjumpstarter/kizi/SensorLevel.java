@@ -20,6 +20,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 
 import static android.content.Context.SENSOR_SERVICE;
 import static java.lang.Math.abs;
@@ -40,7 +41,7 @@ public class SensorLevel implements SensorEventListener {
         private float[] mR = new float[9];
         private float[] mOrientation = new float[3];
 
-        public Button button;
+        public ImageButton button;
         public View controlView;
 
     SensorLevel(Context context, View view) {
@@ -52,7 +53,7 @@ public class SensorLevel implements SensorEventListener {
         mAccelerometer = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
         mMagnetometer = mSensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD);
         Log.i("Orientation", "Test bottom of Create");
-        button = (Button) view.findViewById(R.id.picture);
+        button = view.findViewById(R.id.picture);
         controlView = view.findViewById(R.id.control);
 
     }
@@ -107,10 +108,10 @@ public class SensorLevel implements SensorEventListener {
             if( mOrientation[1] > tolerance || mOrientation[1] < -tolerance ||
                     mOrientation[2] > tolerance || mOrientation[2] < -tolerance )
             {
-                return Color.rgb(255, 0 , 0);
+                return Color.rgb(188, 28 , 28);
             }
             else
-                return Color.rgb(0, 255, 0);
+                return Color.rgb(27, 94, 32);
 
         }
 
